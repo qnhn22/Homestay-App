@@ -1,0 +1,58 @@
+<% layout('layout/boilerplate')%>
+    <div class="row">
+        <div class="col-6">
+            <div class="card mb-3">
+                <img src="<%= homestay.image%>" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <%= homestay.title%>
+                    </h5>
+                    <p class="card-text">
+                        <%= homestay.description%>
+                    </p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-muted">
+                        <%= homestay.location%>
+                    </li>
+                    <li class="list-group-item">$<%= homestay.price%>/night</li>
+                </ul>
+                <div class="card-body">
+                    <a class="card-link btn btn-info" href="/homestays/<%=homestay._id%>/edit">Edit</a>
+                    <form class="d-inline" action="/homestays/<%=homestay._id%>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="col-6">
+            <h2>Leave your Review</h2>
+            <form action="/homestays/<%=homestay._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
+                <div class="mb-3">
+                    <label for="customRange1" class="form-label">Rating</label>
+                    <input type="range" class="form-range" id="customRange1" min="1" max="5" name="review[rating]">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="body">Review</label>
+                    <textarea class="form-control" name="review[body]" id="body" cols="30" rows="3" required></textarea>
+                    <div class="valid-feedback"> Looks good </div>
+                </div>
+                <button class="btn btn-success">Submit</button>
+            </form>
+            <% for (let review of homestay.reviews) { %>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-tittle">Rating: <%= review.rating %>
+                        </h5>
+                        <p class="card-text"> Review: <%= review.body %>
+                        </p>
+                        <form action="/homestays/<%= homestay._id %>/reviews/<%= review._id %>?_method=DELETE"
+                            method="POST">
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                <% } %>
+        </div>
+    </div>
